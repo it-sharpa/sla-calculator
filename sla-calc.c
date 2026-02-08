@@ -7,9 +7,8 @@
 
 static void display_no_args(void);
 static void display_help(void);
-static void display_invalid_value_i64(int64_t a, int64_t min, int64_t max);
-static void display_invalid_value_f64(const char *what_value, double a,
-                                      double min, double max);
+static void display_invalid_value(const char *what_value, double a, double min,
+                                  double max);
 static void display_info(void);
 static void display_invalid_argument(const char *arg);
 
@@ -32,7 +31,7 @@ int main(int argc, char **argv) {
   }
   double sla = atof(argv[1]);
   if (sla < 0 || sla >= 100) {
-    display_invalid_value_f64("SLA percent", sla, 0, 100);
+    display_invalid_value("SLA percent", sla, 0, 100);
     return -3;
   }
 
@@ -87,8 +86,7 @@ int main(int argc, char **argv) {
   }
   double update_time_percent = atof(argv[3]);
   if (update_time_percent < 0 || update_time_percent >= 100) {
-    display_invalid_value_f64("Update time percent", update_time_percent, 0,
-                              100);
+    display_invalid_value("Update time percent", update_time_percent, 0, 100);
     return -6;
   }
 
@@ -140,8 +138,8 @@ static void display_help(void) {
        "system update.");
 }
 
-static void display_invalid_value_f64(const char *what_value, double x,
-                                      double min, double max) {
+static void display_invalid_value(const char *what_value, double x, double min,
+                                  double max) {
   printf("Invalid value for \"%s\": %lf\n"
          "Value must be in range of %.0lf-%.0lf (exclusively).\n",
          what_value, x, min, max);
